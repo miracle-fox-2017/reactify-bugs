@@ -8,7 +8,7 @@ class MainContent extends Component {
     super(props)
     
     this.state = {
-      bugs: localStorage.getItem('bugs') !== null ? JSON.parse(localStorage.getItem('bugs')) : [],
+      bugs: [],
       description: '',
       status: 'open',
       severity: 'low',
@@ -104,21 +104,6 @@ class MainContent extends Component {
   render () {
     var bugItem = []
   
-    this.state.bugs.forEach((bug, index) => {
-      bugItem.push(
-        <div className="bug-item" key={bug.id}>
-          <h4 className="bug-id">ID: {bug.id}</h4>
-          <h4 className="bug-id">Status: {bug.status}</h4>
-          <h2 className="bug-desc">Desc: {bug.description}</h2>
-          <h3 className="bug-severity">Severity: {bug.severity}</h3>
-          <h4 className="bug-assignedTo">Assigned To: {bug.assignedTo}</h4>
-
-          <button className="btn" onClick={() => this.doCloseBug(bug, index)}>Close</button>
-          <button className="btn" onClick={() => this.doDeleteBug(bug, index)}>Delete</button>
-        </div>
-      )
-    })
-
     return (
       <section className="hero is-medium">
         <div className="hero-body">
@@ -160,13 +145,32 @@ class MainContent extends Component {
           <h2>Bug List</h2>
           <hr />
 
-          {bugItem}
-        </div>
+          {
+            this.state.bugs.map((bug, index) => {
+              return(
+                <div className="bug-item" key={bug.id}>
+                  <h4 className="bug-id">ID: {bug.id}</h4>
+                  <h4 className="bug-id">Status: {bug.status}</h4>
+                  <h2 className="bug-desc">Desc: {bug.description}</h2>
+                  <h3 className="bug-severity">Severity: {bug.severity}</h3>
+                  <h4 className="bug-assignedTo">Assigned To: {bug.assignedTo}</h4>
 
-        {/* <BugList bugs={this.state.bugs}/> */}
+                  <button className="btn" onClick={() => this.doCloseBug(bug, index)}>Close</button>
+                  <button className="btn" onClick={() => this.doDeleteBug(bug, index)}>Delete</button>
+                </div>
+              )
+            })
+          }
+        </div>
         
       </section>
     )
+  }
+
+  componentWillMount(){
+    this.setState({
+      bugs: JSON.parse(localStorage.getItem('bugs'))
+    })
   }
 }
 
