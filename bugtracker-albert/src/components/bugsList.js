@@ -12,6 +12,18 @@ class BugsList extends Component {
     localStorage.setItem('bugs', JSON.stringify(listBugs))
     this.forceUpdate()
   }
+  removeBug = (event) => {
+    let listBugs = this.props.listBugsFromParent
+    let bugId = event.target.name
+    listBugs.forEach((data) => {
+      if (data.id === bugId) {
+        let idx = listBugs.indexOf(data)
+        listBugs.splice(idx, 1)
+      }
+    })
+    localStorage.setItem('bugs', JSON.stringify(listBugs))
+    this.forceUpdate()
+  }
   render () {
     let listBugs = this.props.listBugsFromParent
     let listBreakdown = listBugs.map((data) => {
@@ -24,7 +36,7 @@ class BugsList extends Component {
             <h4 className="card-title">Description: {data.description}</h4>
             <p className="card-text">Status: {data.status}</p>
             <button name={data.id} type="button" className="btn btn-success" onClick={this.closeBug}>Close</button>
-            <button type="button" className="btn btn-danger">Delete</button>
+            <button name={data.id} type="button" className="btn btn-danger" onClick={this.removeBug}>Delete</button>
           </div>
         </div>
       )
