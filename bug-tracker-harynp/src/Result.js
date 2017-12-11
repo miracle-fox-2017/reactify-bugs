@@ -2,14 +2,15 @@ import React from 'react';
 
 class Result extends React.Component {
 setRemoveBug (id) {
-this.props.parent(id)
+this.props.parentDelete(id)
 }
 setStatusClosed(id) {
-this.props.parent(id)
+this.props.parentEdit(id)
 }
 constructor () {
   super();
-  this.removeBug = this.removeBug.bind(this)
+  this.setRemoveBug = this.setRemoveBug.bind(this)
+  this.setStatusClosed = this.setStatusClosed.bind(this)
 }
 
   render() {
