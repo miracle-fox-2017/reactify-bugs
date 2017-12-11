@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "bulma": "^0.3.1",
-    "chance": "^1.0.4",
+    "chance": "^1.0.12",
     "jquery": "^3.1.1",
     "live-server": "^1.2.0"
   },
