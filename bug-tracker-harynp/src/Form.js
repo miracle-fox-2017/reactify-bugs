@@ -9,11 +9,13 @@ class Form extends React.Component {
     let description = this.refs.description.value;
     let severity = this.refs.severity.value;
     let assignedto = this.refs.assignedto.value;
+    let status = 'Open'
     let form = {
       id,
       description,
       severity,
-      assignedto
+      assignedto,
+      status
     }
     let bugs = []
     if (localStorage.getItem('bugs') !== null) {

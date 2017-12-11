@@ -10,6 +10,11 @@ class App extends Component {
     this.setState({data: JSON.parse(bugs)})
   }
 
+  tampilID (id) {
+    console.log('INI DIPARENT',id);
+  }
+
+
   constructor () {
     super ()
     this.state = {
@@ -22,7 +27,7 @@ class App extends Component {
       <div className="App">
         <Form/>
         {this.state.data.map((d) => {
-          return <Result bugs={d} key={d.id}/>
+          return <Result bugs={d} key={d.id} parent={this.tampilID}/>
         })}
         <Footer/>
       </div>
