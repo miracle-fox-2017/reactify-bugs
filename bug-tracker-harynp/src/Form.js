@@ -1,23 +1,27 @@
 import React from 'react';
+import Chance from 'chance';
 import './App.css';
 class Form extends React.Component {
   addForm (event) {
+    var chance = new Chance()
     event.preventDefault();
+    let id = chance.guid()
     let description = this.refs.description.value;
     let severity = this.refs.severity.value;
     let assignedto = this.refs.assignedto.value;
     let form = {
+      id,
       description,
       severity,
       assignedto
     }
-    let data = this.state.data
-    data.push(form)
-
-    this.setState({
-      data: data
-    })
-
+    let bugs = []
+    if (localStorage.getItem('bugs') !== null) {
+      bugs = JSON.parse(localStorage.getItem('bugs'))
+    }
+    bugs.push(form)
+    localStorage.setItem('bugs', JSON.stringify(bugs))
+    this.refs.formAdd.reset();
   }
 
   constructor () {
@@ -31,14 +35,13 @@ class Form extends React.Component {
 
   render () {
     let creator = this.state.creator;
-    let data = this.state.data;
     return (
       <div className="container">
         <h1 className="title is-1"> Bug Tracker <small>by {creator}</small></h1>
         <section className="hero is-medium">
           <div className="hero-body">
             <h2 className="title">Add New Bug Report:</h2>
-            <form action="" id="bugInputForm">
+            <form action="" id="bugInputForm" ref="formAdd">
               <label className="label" htmlFor="">Description</label>
               <p className="control">
                 <input className="input" type="text" id="description" ref="description" placeholder="Describe a bug..."/>
@@ -63,9 +66,6 @@ class Form extends React.Component {
                 </p>
               </div>
             </form>
-            <pre>
-            {JSON.stringify(data)}
-            </pre>
           </div>
         </section>
         <hr />
