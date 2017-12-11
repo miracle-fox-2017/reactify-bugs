@@ -11,9 +11,7 @@ class App extends Component {
   }
 
   tampilIDRemove = (id) => {
-    // this.state.data = bugs
     this.remove(id)
-    // this.updated(id)
   }
 
   tampilIDEdit = (id) => {
@@ -25,13 +23,19 @@ class App extends Component {
   const idx = this.state.data.findIndex((idx) => {
   return idx.id === id
   })
-  this.state.data.splice(idx,1)
-  console.log('INI INDEX',idx);
+  this.setState(this.state.data.splice(idx,1))
+  console.log('INI DELETE INDEX',idx);
   localStorage.setItem('bugs', JSON.stringify(this.state.data));
   }
 
   updated (id) {
     console.log('INI DIEDIT', id);
+    const idx = this.state.data.findIndex((idx) => {
+    return idx.id === id
+    })
+    this.state.data[idx].status = 'Close'
+    this.setState(this.state.data)
+    console.log('INI UPDATE INDEX', idx);
   }
 
   constructor () {
