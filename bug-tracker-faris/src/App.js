@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   close(pos) {
-    let bug = this.state.bugs[pos-1]
+    let bug = this.state.bugs[pos]
     bug.status = 'close'
     this.setState({
       bugs: this.state.bugs
@@ -92,8 +92,8 @@ class App extends Component {
             <small className="tag is-primary">{bug.status}</small>
           </div>
           <footer className="card-footer">
-            <a className="is-warning card-footer-item" key={i+1} onClick={()=>this.close(i+1)}>close</a>
-            <a className="card-footer-item" key={i} onClick={()=>this.remove(i)}>delete</a>
+            <a className="is-warning card-footer-item" onClick={()=>this.close(i)}>close</a>
+            <a className="card-footer-item" onClick={()=>this.remove(i)}>delete</a>
           </footer>
         </div>
       )
@@ -106,7 +106,7 @@ class App extends Component {
     }
 
     return (
-      <div className="container">
+      <div className="container-fluid ">
         <div className="columns">
           <div className="column is-8 is-offset-2">
             <h1 className="title is-1"> Bug Tracker Hacktiv8</h1>
