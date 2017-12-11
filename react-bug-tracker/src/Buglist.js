@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
-import '../node_modules/bulma/css/bulma.css'
+import Bugitem from './Bugitem'
 
 class Buglist extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
-      <div className="card">
-        <header className="card-header">
-          <p className="card-header-title">tes</p>
-        </header>
-        <div className="card-content">
-          <div className="content">
-            askjhdiuhajkshduihaskd askjdhaklsdsa jashdlkasjd
-            <br />
-            <span className="tag is-primary">sample</span>
-            <p>Assigned to: tes</p>
-          </div>
-        </div>
-        <footer className="card-footer">
-          <div className="button card-footer-item">Close</div>
-          <div className="button card-footer-item">Delete</div>
-        </footer>
+      <div>
+        {this.props.bugList.map(bug => {
+            return <Bugitem bug={bug} key={bug.id} closeBug={this.props.closeBug} deleteBug={this.props.deleteBug}/>
+          })
+        }
       </div>
     )
   }
+
 }
 
 export default Buglist

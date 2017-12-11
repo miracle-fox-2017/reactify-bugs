@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Chance from 'chance'
-import '../node_modules/bulma/css/bulma.css'
 
 class Form extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       description: '',
-      severity: '',
+      severity: 'Low',
       assigned: ''
     }
   }
@@ -24,6 +23,7 @@ class Form extends Component {
 
   handleSubmit (event) {
     let chance = new Chance()
+    let bugList = []
     let formBug = {
       id: chance.guid(),
       description: this.state.description,
@@ -33,12 +33,18 @@ class Form extends Component {
     }
 
     if (localStorage.getItem('bugList')) {
-      let bugList = JSON.parse(localStorage.getItem('bugList'))
-      bugList.push(formBug)
-      localStorage.setItem('bugList', JSON.stringify(bugList))
-    } else {
-      localStorage.setItem('bugList', JSON.stringify([formBug]))
-    } 
+      bugList = JSON.parse(localStorage.getItem('bugList'))
+    }
+    bugList.push(formBug)
+    localStorage.setItem('bugList', JSON.stringify(bugList))
+    
+    this.props.newBug(formBug)
+
+    this.setState({
+      description: '',
+      severity: 'Low',
+      assigned: ''
+    })
   }
 
   render() {
@@ -47,17 +53,15 @@ class Form extends Component {
         <div className="hero is-medium">
           <h2 className="title">Add New Bug Report:</h2>
         </div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
           <div className="field">
             <label className="label">Description:</label>
-            <input name="description" className="input" type="text" placeholder="Describe a bug..." onChange={this.handleInput.bind(this)}/>
+            <input name="description" className="input" type="text" placeholder="Describe a bug..." value={this.state.description} onChange={this.handleInput.bind(this)}/>
           </div>
           <div className="field">
             <label className="label">Severity:</label>
             <div className="control">
               <div className="select">
                 <select name="severity" onChange={this.handleInput.bind(this)}>
-                  <option>-select-</option>
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
                   <option value="High">High</option>
@@ -67,10 +71,9 @@ class Form extends Component {
           </div>
           <div className="field">
             <label className="label">Assigned To:</label>
-            <input name="assigned" className="input" type="text" placeholder="Enter responsible..." onChange={this.handleInput.bind(this)}/>
+            <input name="assigned" className="input" type="text" placeholder="Enter responsible..." value={this.state.assigned} onChange={this.handleInput.bind(this)}/>
           </div>
-          <input type="submit" className="button is-primary" value="Submit" />
-        </form>
+          <button className="button is-primary" onClick={this.handleSubmit.bind(this)}>Submit</button>
       </section>
     )
   }
