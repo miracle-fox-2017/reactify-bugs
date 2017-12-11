@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Chance from 'chance'
 import './App.css';
 
 class App extends Component {
@@ -31,8 +32,9 @@ class App extends Component {
   }
 
   handleClick(event) {
+    var my_chance = new Chance();
     let bugs = {
-      id: new Date(),
+      id: my_chance.guid(),
       description: this.state.description,
       severity: this.state.severity,
       assignedTo: this.state.assignedTo,
@@ -75,52 +77,77 @@ class App extends Component {
   render() {
     let buglist = this.state.bugs.map((bug, i) => {
       return (
-        <div className="bug" key={i}>
-          <h1>Bug ID: {JSON.stringify(bug.id)}</h1>
-          <p>{bug.description} <span>{bug.severity}</span> </p>
-          <p>Assigned To: {bug.assignedTo}</p>
-          <p>Status: {bug.status}</p>
-          <button key={i+1} onClick={()=>this.close(i+1)}>close</button> <button key={i} onClick={()=>this.remove(i)}>delete</button>
+        <div className="card" key={i}>
+          <header className="card-header">
+            <p className="card-header-title">
+            BugId: {bug.id}
+            </p>
+          </header>
+          <div className="card-content">
+            <div className="content">
+              {bug.description}
+              <span className="tag is-info">{bug.severity}</span>
+              <p>Assigned To: {bug.assignedTo}</p>
+            </div>
+            <small className="tag is-primary">{bug.status}</small>
+          </div>
+          <footer className="card-footer">
+            <button className="is-warning card-footer-item" key={i+1} onClick={()=>this.close(i+1)}>close</button>
+            <button className="card-footer-item" key={i} onClick={()=>this.remove(i)}>delete</button>
+          </footer>
         </div>
           )
     })
 
     return (
       <div className="container">
-        <h1 className="title is-1"> Bug Tracker </h1>
-        <div className="hero is-medium" >
-          <div className="hero-body" >
-            <h2 className="title is-2">Add new Bug Report</h2>
-            <label>
-              Description:
-            </label>
-            <div>
-              <input type="text" name="description" value={this.state.description} onChange={this.handleChange} placeholder="describe a bug.."/>
+        <div className="columns">
+          <div className="column is-half is-offset-one-fifth">
+            <h1 className="title is-1"> Bug Tracker Hacktiv8</h1>
+            <div className="hero is-medium" >
+              <div className="hero-body" >
+                <h2 className="title is-2">Add new Bug Report</h2>
+                <label>
+                  Description:
+                </label>
+                <div>
+                  <input type="text" name="description" value={this.state.description} onChange={this.handleChange} placeholder="describe a bug.."/>
+                </div>
+                <label>
+                  Severity:
+                </label>
+                <div>
+                  <select id="severity" name="severity" value={this.state.severity} onChange={this.handleChange}>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <label>
+                  Assigned To:
+                </label>
+                <div>
+                  <input type="text" name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="enter responsible.."/>
+                </div>
+                <div>
+                  <input onClick={this.handleClick} type="submit" value="Submit" />
+                </div>
+              </div>
             </div>
-            <label>
-              Severity:
-            </label>
-            <div>
-              <select id="severity" name="severity" value={this.state.severity} onChange={this.handleChange}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </div>
-            <label>
-              Assigned To:
-            </label>
-            <div>
-              <input type="text" name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="enter responsible.."/>
-            </div>
-            <div>
-              <input onClick={this.handleClick} type="submit" value="Submit" />
+            <div className="buglist">
+              { buglist }
             </div>
           </div>
         </div>
-        <div className="buglist">
-          { buglist }
-        </div>
+        <footer className="footer">
+          <div className="container-fluid">
+            <div className="content has-text-centered">
+              <p>
+                &copy; HACKTIV8
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }
