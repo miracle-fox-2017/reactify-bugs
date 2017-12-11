@@ -103,7 +103,15 @@ class MainContent extends Component {
 
   render () {
     var bugItem = []
-  
+    
+    const bugItemStyle = {
+      border: '1px solid #ddd',
+      margin: '20px',
+      padding: '10px',
+      background: 'ghostwhite',
+      
+    };
+
     return (
       <section className="hero is-medium">
         <div className="hero-body">
@@ -148,7 +156,7 @@ class MainContent extends Component {
           {
             this.state.bugs.map((bug, index) => {
               return(
-                <div className="bug-item" key={bug.id}>
+                <div className="bug-item" style={bugItemStyle} key={bug.id}>
                   <h4 className="bug-id">ID: {bug.id}</h4>
                   <h4 className="bug-id">Status: {bug.status}</h4>
                   <h2 className="bug-desc">Desc: {bug.description}</h2>
