@@ -4,6 +4,7 @@ import {
   Input
   } from 'reactbulma'
 import './App.css';
+import ListBugs from './listBugs'
 import Chance from 'chance'
 const chance = new Chance()
 
@@ -11,36 +12,72 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: chance.guid(),
-      description: '',
-      assignedTo: '',
-      severity: '',
-      status: 'Open'
-
+      bugs:[],
+      bug: {
+        id: chance.guid(),
+        description: '',
+        assignedTo: '',
+        severity: 'low',
+        status: 'Open'
+      }
     };
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount () {
+    this.setState({
+      bugs: JSON.parse(localStorage.getItem('bugs')) || []
+    })
+    this.forceUpdate();
   }
 
   handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value 
-    })
+    let state = this.state.bug
+    state[event.target.name]= event.target.value
+    this.setState(state)
   }
-  
-
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState(function(state) {
-      // state.push(state)
-      console.log('ini state', state);
-      localStorage.setItem('bugs', JSON.stringify(state))
+      console.log('INPUT DATA', state.bug)
+      this.state.bugs.push(state.bug)
+      localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
     })
+    this.setState({
+      bug: {
+        id: chance.guid(),
+        description : '',
+        severity : '',
+        assignedTo : '',
+        status: 'Open'
+      }
+    })
+  }
+
+  tutupBug (id) {
+    console.log('INI ID', id)
+    let bugs = JSON.parse(localStorage.getItem('bugs'))
+    let updatedBugs = bugs.map((item) => {
+      if (item.id === id)
+        item.status = 'Close'
+      return item
+    })
+    localStorage.setItem('bugs', JSON.stringify(updatedBugs))
+    window.location.reload()
+  }
+
+  hapusBug (id) {
+    console.log('INI ID Yg KAN DI HAPUS', id)
+    let bugs = JSON.parse(localStorage.getItem('bugs'))
+    let remainingBugs = bugs.filter((item) => {
+      return item.id !== id
+    })
+    localStorage.setItem('bugs', JSON.stringify(remainingBugs))
+    window.location.reload()
   }
 
   render() {
     return (
-      <div className="App" className="container">
+      <div className="App container">
           <h1 className="title is-1">Bug Tracker <small>by HACKTIV8</small></h1>
           <section className="hero is-medium">
             <div className="hero-body">
@@ -48,12 +85,12 @@ class App extends Component {
               <form onSubmit={this.handleSubmit}>
                 <label className="label" >Description</label>
                 <Control>
-                  <Input name="description" value={this.state.description} onChange={this.handleChange} placeholder="Describe a bug..."/>
+                  <Input name="description" value={this.state.bug.description} onChange={this.handleChange} placeholder="Describe a bug..."/>
                 </Control>
                 <label className="label" >Severity</label>
                 <p className="control">
                   <span className="select">
-                    <select name="severity" value={this.state.severity} onChange={this.handleChange}>
+                    <select name="severity" value={this.state.bug.severity} onChange={this.handleChange}>
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
@@ -62,7 +99,7 @@ class App extends Component {
                 </p>
                 <label className="label" >Assigned To</label>
                 <Control>
-                  <Input name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="Enter responsible..."/>
+                  <Input name="assignedTo" value={this.state.bug.assignedTo} onChange={this.handleChange} placeholder="Enter responsible..."/>
                 </Control>
                 <div className="control is-grouped">
                   <p className="control">
@@ -73,10 +110,11 @@ class App extends Component {
             </div>
           </section>
           <hr />
-          <div className="columns">
-            <div className="column is-medium" id="listBugs"></div>
-          </div>
-          {/* <!-- Footer --> */}
+          <ListBugs 
+            bugs={this.state.bugs}
+            setClose={this.tutupBug}
+            setHapus={this.hapusBug}
+          />
           <footer className="footer">
             <div className="container">
               <div className="content has-text-centered">
