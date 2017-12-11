@@ -26,3 +26,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.container {
+  margin-left: 180px;
+  margin-right: 180px;
+}
+.columns {
+  margin-left: 90px;
+  margin-right: 90px;
+}
