@@ -1,6 +1,17 @@
 import React from 'react';
 
 class Result extends React.Component {
+removeBug (id) {
+console.log('INI HAPUS');
+}
+setStatusClosed(id) {
+console.log('INI CLOSE');
+}
+constructor () {
+  super();
+  this.removeBug = this.removeBug.bind(this)
+}
+
   render() {
     return (
       <div className="card">
@@ -19,8 +30,8 @@ class Result extends React.Component {
           <small className="tag is-primary">status</small>
         </div>
         <footer className="card-footer">
-        <button> <a onclick="setStatusClosed('id')" className="is-warning card-footer-item">Close</a> </button>
-        <button> <a className="card-footer-item" onClick="deleteBug('id')">Delete</a> </button>
+        <button> <a onClick={() => this.setStatusClosed(this.props.bugs.id)} className="is-warning card-footer-item">Close</a> </button>
+        <button> <a className="card-footer-item" onClick={() => this.removeBug(this.props.bugs.id)}>Delete</a> </button>
         </footer>
       </div>
     )}

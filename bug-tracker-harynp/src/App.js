@@ -22,7 +22,7 @@ class App extends Component {
       <div className="App">
         <Form/>
         {this.state.data.map((d) => {
-          return <Result bugs={d}/>
+          return <Result bugs={d} key={d.id}/>
         })}
         <Footer/>
       </div>
