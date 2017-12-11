@@ -5,8 +5,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bugs: [],
       description: '',
-      severity: '',
+      severity: 'low',
       assignedTo: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -14,9 +15,8 @@ class App extends Component {
   }
 
   handleChange(event) {
-    console.log(this.state)
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
     this.setState({
       [name]: value
@@ -24,8 +24,25 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    let bugs = {
+      id: new Date(),
+      description: this.state.description,
+      severity: this.state.severity,
+      assignedTo: this.state.assignedTo
+    };
+    this.state.bugs.push(bugs);
+    localStorage.setItem('bugs', JSON.stringify(this.state.bugs));
+    this.setState({
+      bugs: this.state.bugs
+    });
     event.preventDefault();
+  }
+
+  componentWillMount(){
+    let bugs = JSON.parse(localStorage.getItem('bugs'))
+    this.setState({
+      bugs: bugs
+    });
   }
 
   render() {
@@ -51,7 +68,7 @@ class App extends Component {
             </select>
           </div>
           <label>
-            Description:
+            Assigned To:
           </label>
           <div>
             <input type="text" name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="enter responsible.."/>
@@ -60,6 +77,9 @@ class App extends Component {
             <input type="submit" value="Submit" />
           </div>
         </form>
+        <div className="buglist">
+          { JSON.stringify(this.state.bugs) }
+        </div>
       </div>
     );
   }
