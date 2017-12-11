@@ -86,51 +86,59 @@ class App extends Component {
           <div className="card-content">
             <div className="content">
               {bug.description}
-              <span className="tag is-info">{bug.severity}</span>
+              <span className="tag is-info"> {bug.severity}</span>
               <p>Assigned To: {bug.assignedTo}</p>
             </div>
             <small className="tag is-primary">{bug.status}</small>
           </div>
           <footer className="card-footer">
-            <button className="is-warning card-footer-item" key={i+1} onClick={()=>this.close(i+1)}>close</button>
-            <button className="card-footer-item" key={i} onClick={()=>this.remove(i)}>delete</button>
+            <a className="is-warning card-footer-item" key={i+1} onClick={()=>this.close(i+1)}>close</a>
+            <a className="card-footer-item" key={i} onClick={()=>this.remove(i)}>delete</a>
           </footer>
         </div>
-          )
+      )
     })
+
+    let style = {
+      background: {
+        'backgroundColor': 'lightgray'
+      }
+    }
 
     return (
       <div className="container">
         <div className="columns">
-          <div className="column is-half is-offset-one-fifth">
+          <div className="column is-8 is-offset-2">
             <h1 className="title is-1"> Bug Tracker Hacktiv8</h1>
-            <div className="hero is-medium" >
+            <div className="hero is-medium" style={style.background}>
               <div className="hero-body" >
-                <h2 className="title is-2">Add new Bug Report</h2>
-                <label>
+                <h2 className="title is-3">Add new Bug Report</h2>
+                <label className="label">
                   Description:
                 </label>
-                <div>
-                  <input type="text" name="description" value={this.state.description} onChange={this.handleChange} placeholder="describe a bug.."/>
+                <div className="control">
+                  <input className="input" type="text" name="description" value={this.state.description} onChange={this.handleChange} placeholder="describe a bug.."/>
                 </div>
-                <label>
+                <div className="control">
+                <label className="label">
                   Severity:
                 </label>
-                <div>
-                  <select id="severity" name="severity" value={this.state.severity} onChange={this.handleChange}>
+                  <select className="select" id="severity" name="severity" value={this.state.severity} onChange={this.handleChange}>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                   </select>
                 </div>
-                <label>
+                <div className="control">
+                <label className="label">
                   Assigned To:
                 </label>
-                <div>
-                  <input type="text" name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="enter responsible.."/>
+                  <input className="input" type="text" name="assignedTo" value={this.state.assignedTo} onChange={this.handleChange} placeholder="enter responsible.."/>
                 </div>
-                <div>
-                  <input onClick={this.handleClick} type="submit" value="Submit" />
+                <div className="control is-grouped">
+                  <p className="control">
+                    <input className="button is-warning" onClick={this.handleClick} type="submit" value="Submit" />
+                  </p>
                 </div>
               </div>
             </div>
