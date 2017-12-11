@@ -18,6 +18,13 @@ class App extends Component {
     this.updated(id)
   }
 
+  tampilIDAdd = (item) => {
+    // console.log('INI DI PARENT ADD',id);
+    // this.setState(this.state.data.push(item))
+    this.state.data.push(item)
+    this.setState(this.state.data)
+  }
+
   remove (id) {
   console.log('INI DIREMOVE', id);
   const idx = this.state.data.findIndex((idx) => {
@@ -36,6 +43,8 @@ class App extends Component {
     this.state.data[idx].status = 'Close'
     this.setState(this.state.data)
     console.log('INI UPDATE INDEX', idx);
+    localStorage.setItem('bugs', JSON.stringify(this.state.data));
+
   }
 
   constructor () {
@@ -50,9 +59,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Form/>
+        <Form paretAdd={this.tampilIDAdd}/>
         {this.state.data.map((d) => {
-          return <Result bugs={d} key={d.id} parentDelete={this.tampilIDRemove} parentEdit ={this.tampilIDEdit}/>
+          return <Result bugs={d} key={d.id} parentDelete={this.tampilIDRemove} parentEdit={this.tampilIDEdit}/>
         })}
         <Footer/>
       </div>

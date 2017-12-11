@@ -23,6 +23,7 @@ class Form extends React.Component {
     }
     bugs.push(form)
     localStorage.setItem('bugs', JSON.stringify(bugs))
+    this.props.paretAdd(form);
     this.refs.formAdd.reset();
   }
 
