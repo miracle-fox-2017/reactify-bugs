@@ -10,14 +10,30 @@ class BugList extends Component {
   }
 
   render () {
-    <div className="bug-list">
-      <div className="bug-item">
-        <h4 className="bug-id">Bug Id</h4> 
-        <h3 className="bug-name">Error Laptop</h3>
-        <h3 className="bug-severity">Low</h3>
-        
-        <button className="btn">Delete</button>
-      </div>
-    </div>
+    var bugItem = []
+
+    this.props.bugs.forEach(bug => {
+      bugItem.push(
+        <div className="bug-item" key={bug.id}>
+          <h4 className="bug-id">{bug.id}</h4>
+          <h2 className="bug-desc">{bug.description}</h2>
+          <h3 className="bug-severity">{bug.severity}</h3>
+          <h4 className="bug-assignedTo">{bug.assignedTo}</h4>
+
+          <button className="btn">Delete</button>
+        </div>
+      )
+    })
+
+    return (
+     <div className="bug-list">
+       <h2>Bug List</h2>
+       <hr/>
+
+        {bugItem}
+     </div>
+    )
   }
 }
+
+export default BugList

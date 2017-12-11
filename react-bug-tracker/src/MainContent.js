@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
+import BugList from './BugList';
+import Chance from 'chance';
+var chance = new Chance();
 
 class MainContent extends Component {
   constructor(props) {
     super(props)
     
     this.state = {
-      bugs: [],
+      bugs: localStorage.getItem('bugs') !== null ? JSON.parse(localStorage.getItem('bugs')) : [],
       description: '',
+      status: 'open',
       severity: 'low',
       assignedTo: '',
     }
@@ -15,6 +19,40 @@ class MainContent extends Component {
     this.handleSeverityChange = this.handleSeverityChange.bind(this)
     this.handleAssignedToChange = this.handleAssignedToChange.bind(this)
     this.doSaveBug = this.doSaveBug.bind(this)
+    this.doDeleteBug = this.doDeleteBug.bind(this)
+    this.doCloseBug = this.doCloseBug.bind(this)
+  }
+
+  deleteBug = (id) => {
+    let bugs = JSON.parse(localStorage.getItem('bugs'))
+
+    let remainingBugs = bugs.filter((item) => {
+      return item.id !== id
+    })
+
+    this.setState({
+      bugs: remainingBugs
+    })
+
+    localStorage.setItem('bugs', JSON.stringify(remainingBugs))
+  }
+
+  setStatusClosed = (id) => {
+    let bugs = JSON.parse(localStorage.getItem('bugs'))
+
+    let updatedBugs = bugs.map((item) => {
+      if (item.id === id)
+        item.status = 'Close'
+      return item
+    })
+
+    this.setState({
+      bugs: updatedBugs
+    })
+
+
+    localStorage.setItem('bugs', JSON.stringify(updatedBugs))
+
   }
 
   doSaveBug(e) {
@@ -22,9 +60,10 @@ class MainContent extends Component {
     // alert(this.state.description)
     var newBugs = this.state.bugs;
     newBugs.push({
-      id: Math.random(),
+      id: chance.guid(),
+      status: 'open',
       description: this.state.description,
-      severity: this.state.description,
+      severity: this.state.severity,
       assignedTo: this.state.assignedTo,
     })
 
@@ -34,8 +73,20 @@ class MainContent extends Component {
       severity: '',
       assignedTo: '',
     })
+
+    localStorage.setItem('bugs', JSON.stringify(this.state.bugs))
   
     document.getElementById("bugInputForm").reset();
+  }
+
+  doDeleteBug(payload, index) {
+    // e.preventDefault()
+    // console.log(payload)
+    this.deleteBug(payload.id)
+  }
+
+  doCloseBug(payload, index) {
+    this.setStatusClosed(payload.id)
   }
 
   handleDescriptionChange(e) {
@@ -51,6 +102,23 @@ class MainContent extends Component {
   }
 
   render () {
+    var bugItem = []
+  
+    this.state.bugs.forEach((bug, index) => {
+      bugItem.push(
+        <div className="bug-item" key={bug.id}>
+          <h4 className="bug-id">ID: {bug.id}</h4>
+          <h4 className="bug-id">Status: {bug.status}</h4>
+          <h2 className="bug-desc">Desc: {bug.description}</h2>
+          <h3 className="bug-severity">Severity: {bug.severity}</h3>
+          <h4 className="bug-assignedTo">Assigned To: {bug.assignedTo}</h4>
+
+          <button className="btn" onClick={() => this.doCloseBug(bug, index)}>Close</button>
+          <button className="btn" onClick={() => this.doDeleteBug(bug, index)}>Delete</button>
+        </div>
+      )
+    })
+
     return (
       <section className="hero is-medium">
         <div className="hero-body">
@@ -87,6 +155,16 @@ class MainContent extends Component {
           </form>
          
         </div>
+
+        <div className="bug-list">
+          <h2>Bug List</h2>
+          <hr />
+
+          {bugItem}
+        </div>
+
+        {/* <BugList bugs={this.state.bugs}/> */}
+        
       </section>
     )
   }
