@@ -177,7 +177,7 @@ class MainContent extends Component {
 
   componentWillMount(){
     this.setState({
-      bugs: JSON.parse(localStorage.getItem('bugs'))
+      bugs: localStorage.getItem('bugs') !== null ? JSON.parse(localStorage.getItem('bugs')) : []
     })
   }
 }
