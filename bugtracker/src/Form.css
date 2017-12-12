@@ -1,0 +1,114 @@
+/* h1 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center
+}
+
+form {
+  margin: auto;
+  width: 500px
+} */
+
+.bug_tracker {
+  width: 1000px;
+  margin: auto;
+  font-family: 'Titillium Web', sans-serif;
+  color: rgb(54, 54, 54)
+}
+
+h1.title {
+  margin-bottom: 100px;
+  font-weight: lighter;
+  font-size: 40px
+}
+
+h2 {
+  font-weight: lighter
+}
+
+form label {
+  display: block;
+  font-weight: bold
+}
+
+.form-group {
+  margin-bottom: 15px
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 3px;
+  border: 1px solid silver;
+}
+
+select {
+  padding: 8px;
+  background: transparent;
+  border-color: silver;
+  border-radius: 6px;
+}
+
+button {
+  background: #FFDB4A;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.item_list span {
+  display: block
+}
+
+.item_list {
+  width: 250px;
+  margin: auto;
+}
+
+.item_list ul {
+  list-style: none;
+}
+
+.item_list li {
+  border: 1px solid silver;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+
+span.idBug {
+  padding: 10px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+span.title {
+  display: inline-block;
+}
+
+span.body {
+  display: inline-block;
+}
+
+span.body {
+  display: inline-block;
+  margin-left: 10px;
+  background: blue;
+  border: 1px solid blue;
+  border-radius: 47%;
+  padding: 0px 15px;
+  font-size: 16px;
+  margin-top: 7px;
+  color: white;
+}
+
+.item_list a {
+  width: 92px;
+  display: inline-block;
+  text-align: center;
+  margin-top: 30px;
+}
