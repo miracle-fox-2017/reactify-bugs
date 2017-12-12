@@ -61,7 +61,7 @@ class Form extends Component {
             <label className="label">Severity:</label>
             <div className="control">
               <div className="select">
-                <select name="severity" onChange={this.handleInput.bind(this)}>
+                <select name="severity" value={this.state.severity} onChange={this.handleInput.bind(this)}>
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
                   <option value="High">High</option>
