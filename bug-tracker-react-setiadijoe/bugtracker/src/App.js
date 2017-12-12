@@ -40,17 +40,19 @@ class App extends Component {
 
   sendDataParent(val) {
     alert(JSON.stringify(val)+ ' dari depan')
+    console.log('Isi val ', val)
+    console.log('Isi this.state.bugs ', this.state.bugs);
     val.BugId = chance.guid()
     val.status = 'Open'
     this.setState({
-      bugs: [...this.state.bugs, val]
+      bugs: [{sever: val.sever, desc:val.desc, pic:val.pic}]
     }, ()=> {
       localStorage.setItem('allBugs', JSON.stringify(this.state))
     })
   }
 
   cardBugId () {
-    if (this.state.bugs.length > 0) {
+    if (this.state.bugs) {
       return <div className="md1-grid">
         {this.state.bugs.map((item, index) => {
           return <div className="md1-cell--4-col">

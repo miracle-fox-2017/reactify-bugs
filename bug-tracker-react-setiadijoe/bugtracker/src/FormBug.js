@@ -30,7 +30,7 @@ class FormInput extends Component {
           <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="input_text" className="mdl-textfield__label">Severity</label>
             <select
-              name="desc"
+              name="sever"
               value={this.state.sever}
               onChange={this.onChange.bind(this)}
               className="mdl-textField__select"
@@ -71,6 +71,7 @@ class FormInput extends Component {
 
   dataForm (e) {
     e.preventDefault()
+    console.log(this.state)
     this.props.bugs(this.state)
     this.setState({
       desc: '',
